@@ -1,7 +1,4 @@
 tensorflow
 streamlit
 pillow
-matplotlib
 numpy
-google-cloud-aiplatform
-google-cloud-logging
