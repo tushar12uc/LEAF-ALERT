@@ -5,7 +5,7 @@ import numpy as np
 import base64
 
 # Load the model
-model = tf.keras.models.load_model(r'C:\Users\admin\Downloads\trained_plant_disease_model.keras')
+model = tf.keras.models.load_model(r'C:\Users\HP\Desktop\7 SEM STUDY MATERIAL\LEAF ALERT\New Plant Diseases Dataset(Augmented)\New Plant Diseases Dataset(Augmented)\trained_plant_disease_model\trained_plant_disease_model.keras')
 
 # Class labels for PlantVillage dataset and their explanations with prevention
 class_info = {
@@ -88,120 +88,98 @@ class_info = {
 }
 
 
+# Function to convert binary file to base64
 def get_base64_of_bin_file(file_path):
     with open(file_path, 'rb') as f:
         data = f.read()
     return base64.b64encode(data).decode()
 
 # Set a custom background image for the Streamlit app
-background_image_path = r"C:\Users\admin\Downloads\Gemini_Generated_Image_tu3lrqtu3lrqtu3l.jpg"
+background_image_path = r'C:\Users\HP\Desktop\7 SEM STUDY MATERIAL\LEAF ALERT\New Plant Diseases Dataset(Augmented)\New Plant Diseases Dataset(Augmented)\home_page.jpg'
 bg_image_base64 = get_base64_of_bin_file(background_image_path)
 
 # Apply the background image via CSS
 st.markdown(
-    f"""
+    f'''
     <style>
     .stApp {{
         background-image: url("data:image/jpg;base64,{bg_image_base64}");
         background-size: cover;
+        padding: 2rem;
+        font-family: 'Arial', sans-serif;
     }}
-    h1 {{
-        color: black !important;
-    }}
-    h2 {{
-        color: black !important;
-    }}
-    .large-font {{
-        font-size: 24px !important;
+    h1, h2, h3 {{
+        color: #fff;
+        text-align: center;
+        text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+        margin-bottom: 0.5rem;
         font-weight: bold;
     }}
+    .prediction-card {{
+        background: rgba(0, 0, 0, 0.75);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+        width: 80%;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }}
+    .prediction-card h3, .prediction-card p {{
+        color: #fff;
+        font-size: 1.2rem;
+        text-align: center;
+        margin: 0.5rem 0;
+        font-weight: 500;
+    }}
+    .glowing-button {{
+        padding: 0.8em 2.5em;
+        border: none;
+        outline: none;
+        color: white;
+        background: #333;
+        cursor: pointer;
+        border-radius: 12px;
+        position: relative;
+        z-index: 0;
+        font-size: 24px;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+        margin: 1rem auto;
+        display: block;
+    }}
+    .glowing-button:hover {{
+        transform: scale(1.1);
+        background: #555;
+    }}
+    .glowing-button:before {{
+        content: '';
+        background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 400%;
+        z-index: -1;
+        filter: blur(10px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 15s linear infinite;
+        opacity: 0.85;
+        border-radius: 12px;
+    }}
+    @keyframes glowing {{
+        0% {{ background-position: 0 0; }}
+        50% {{ background-position: 400% 0; }}
+        100% {{ background-position: 0 0; }}
+    }}
     </style>
-    """,
-    unsafe_allow_html=True
-)
+    ''', unsafe_allow_html=True)
 
-# Title and subtitle with black font color
-st.markdown("<h1>LEAF ALERT</h1>", unsafe_allow_html=True)
-st.markdown("<h2>A systematic rapid plant disease detection</h2>", unsafe_allow_html=True)
+
+# Title and subtitle
+st.markdown('<h1>LEAF ALERT</h1>', unsafe_allow_html=True)
+st.markdown('<h2>A systematic rapid plant disease detection</h2>', unsafe_allow_html=True)
 
 # Upload multiple files
-uploaded_files = st.file_uploader("Choose images...", type=["jpg", "jpeg", "png", "bmp", "gif"], accept_multiple_files=True)
-
-# Custom CSS for glowing button
-st.markdown(
-    """
-    <style>
-    .button-85 {
-      padding: 0.6em 2em;
-      border: none;
-      outline: none;
-      color: rgb(255, 255, 255);
-      background: #111;
-      cursor: pointer;
-      position: relative;
-      z-index: 0;
-      border-radius: 10px;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      font-size: 20px;
-    }
-
-    .button-85:before {
-      content: "";
-      background: linear-gradient(
-        45deg,
-        #ff0000,
-        #ff7300,
-        #fffb00,
-        #48ff00,
-        #00ffd5,
-        #002bff,
-        #7a00ff,
-        #ff00c8,
-        #ff0000
-      );
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      background-size: 400%;
-      z-index: -1;
-      filter: blur(5px);
-      -webkit-filter: blur(5px);
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      animation: glowing-button-85 20s linear infinite;
-      transition: opacity 0.3s ease-in-out;
-      border-radius: 10px;
-    }
-
-    @keyframes glowing-button-85 {
-      0% {
-        background-position: 0 0;
-      }
-      50% {
-        background-position: 400% 0;
-      }
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    .button-85:after {
-      z-index: -1;
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #222;
-      left: 0;
-      top: 0;
-      border-radius: 10px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+uploaded_files = st.file_uploader('Choose images...', type=['jpg', 'jpeg', 'png', 'bmp', 'gif'], accept_multiple_files=True)
 
 # Display uploaded images and predictions
 if uploaded_files:
@@ -209,24 +187,16 @@ if uploaded_files:
         try:
             image = Image.open(uploaded_file)
             st.image(image, caption=f'Uploaded Image - {uploaded_file.name}', use_column_width=True)
-
-            # Process the image for prediction
             image = tf.keras.preprocessing.image.load_img(uploaded_file, target_size=(128, 128))
             input_arr = tf.keras.preprocessing.image.img_to_array(image)
-            input_arr = np.array([input_arr])  # Convert single image to a batch.
+            input_arr = np.array([input_arr])
 
-            # Display the custom glowing "Predict" button
-            if st.button("Predict"):
-                # Predict the class
-                prediction = model.predict(input_arr)
-                predicted_class = np.argmax(prediction)
-                disease_name, explanation, prevention = class_info[predicted_class]
-                
-                # Show prediction, disease explanation, and prevention
-                st.markdown(f'<h3 style="color: black;">Prediction: {disease_name}</h3>', unsafe_allow_html=True)
-                st.markdown(f'<h3 style="color: black;">Explanation: {explanation}</h3>', unsafe_allow_html=True)
-                st.markdown(f'<h3 style="color: black;">Prevention: {prevention}</h3>', unsafe_allow_html=True)
+            if st.button('Predict', key=uploaded_file.name, help='Click to predict disease', use_container_width=True):
+                with st.spinner('Predicting...'):
+                    prediction = model.predict(input_arr)
+                    predicted_class = np.argmax(prediction)
+                    disease_name, explanation, prevention = class_info[predicted_class]
+                    st.markdown(f'<div class="prediction-card"><h3>Prediction: {disease_name}</h3><p>Explanation: {explanation}</p><p>Prevention: {prevention}</p></div>', unsafe_allow_html=True)
 
         except Exception as e:
-            st.error(f"Please upload a valid image file: {uploaded_file.name}")
-
+            st.error(f'Error processing file {uploaded_file.name}: {str(e)}')
